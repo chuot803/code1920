@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -26,15 +27,19 @@ func TopN(vals []Section) []Section {
 	// sort vals in descending order of count
 
 	// TODO: only take top 5 items from vals
-
+	sort.Slice(vals, func(i, j int) bool { return vals[i].count > vals[j].count })
+	if len(vals) > 5 {
+		vals = vals[0:5]
+	}
 	return vals
 }
 
 func findRepeats(buf []byte, repeatLen int, minCount int) []Section {
 
-	//m := map[string]Section{}
+	m := map[string]Section{}
 	size := len(buf)
-
+	newString := ""
+	newSection := Section{}
 	// make a map of all substrings of repeatLen to occurrances
 
 	for left := 0; left < size-repeatLen; left++ {
@@ -42,6 +47,20 @@ func findRepeats(buf []byte, repeatLen int, minCount int) []Section {
 		// TODO: get string of length repeatLen at current position
 		// if already in map, increment
 		// else, add to map
+		for i := left; i < left+repeatLen; i++ {
+			newString += string(buf[i])
+		}
+		if _, test := m[newString]; test {
+			temp := m[newString]
+			temp.count++
+			m[newString] = temp
+			newString = ""
+		} else {
+			newSection = Section{newString, 1}
+			m[newString] = newSection
+			newString = ""
+		}
+
 	}
 
 	// make a slice of values with min count
@@ -49,7 +68,11 @@ func findRepeats(buf []byte, repeatLen int, minCount int) []Section {
 	vals := []Section{}
 	// TODO: iterate through map and add items with at least
 	// minCount occurrences to vals
-
+	for _, c := range m {
+		if c.count >= minCount {
+			vals = append(vals, c)
+		}
+	}
 	// take topN and return
 	vals = TopN(vals)
 	return vals

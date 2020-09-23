@@ -7,32 +7,6 @@ type Ribosome struct {
 
 var startCodon = MakeStrand([]byte("AUG"), RIBOSE)
 
-//first attempt, leaving here, pending deletion later
-func findPattern(nucleotides NucleotideStrand, pattern NucleotideStrand) bool {
-	charImLookingFor := pattern.buf[0].base
-	foundIt := false
-
-	for _, nucleotide := range nucleotides.buf {
-
-		if nucleotide.base == charImLookingFor {
-			if charImLookingFor == pattern.buf[0].base {
-				charImLookingFor = pattern.buf[1].base
-				continue
-			}
-			if charImLookingFor == pattern.buf[1].base {
-				charImLookingFor = pattern.buf[2].base
-				continue
-			}
-
-			foundIt = true
-			break
-		} else {
-			charImLookingFor = pattern.buf[0].base
-		}
-	}
-	return foundIt
-}
-
 // Translate returns an AminoAcidStrand for a given NucleotideStrand
 // Use WaitForTRNAAndGetAttachedAminoAcid(codon) to get AminoAcid
 func (t *Ribosome) Translate(nucleotides NucleotideStrand) AminoAcidStrand {
