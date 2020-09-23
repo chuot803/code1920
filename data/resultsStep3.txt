@@ -1,0 +1,7 @@
+PS C:\Users\linds\Documents\GoLearning> cd .\code1920\
+PS C:\Users\linds\Documents\GoLearning\code1920> cd .\crispr\
+PS C:\Users\linds\Documents\GoLearning\code1920\crispr> go build
+PS C:\Users\linds\Documents\GoLearning\code1920\crispr> cat ..\data\sequence.fasta | ./crispr.exe --minrepeatlen 28 --maxrepeatlen 29
+lines: 43648 - 43680 [17:CGGTTTATCCCCGCTGGCGCGGGGAACAC]
+lines: 43904 - 43936 [16:CGGTTTATCCCCGCTGGCGCGGGGAACAC]
+PS C:\Users\linds\Documents\GoLearning\code1920\crispr>
